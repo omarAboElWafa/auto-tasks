@@ -6,4 +6,4 @@ const validateTimeFormat = (time) => {
   return true;
 };
 
-export { validateTimeFormat };
+module.exports = { validateTimeFormat };
