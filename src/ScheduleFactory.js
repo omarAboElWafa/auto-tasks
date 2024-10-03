@@ -1,16 +1,29 @@
 const WeeklyScheduler = require("./schedulers/WeeklyScheduler");
+const DailyScheduler = require("./schedulers/DailyScheduler");
+const HourlyScheduler = require("./schedulers/HourlyScheduler");
+
 class ScheduleFactory {
   constructor() {
     this.schedules = [];
   }
 
   static createSchedule(scheduleData) {
-    const { every, at, period } = scheduleData;
+    const { every, at, period, on } = scheduleData;
     let schedule;
-    if (every && at && period) {
-      schedule = new WeeklyScheduler(every, at, period);
-    } else {
-      throw new Error("Invalid schedule data");
+    switch (every) {
+      case "week":
+        schedule = new WeeklyScheduler(on, at, period);
+        break;
+      case "day":
+        schedule = new DailyScheduler(on, at, period);
+        break;
+      case "hour":
+        schedule = new HourlyScheduler(on);
+        break;
+      default:
+        throw new Error(
+          "Invalid time unit, every must be set to week or day or hour"
+        );
     }
 
     return schedule;
