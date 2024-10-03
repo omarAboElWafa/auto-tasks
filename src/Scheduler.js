@@ -3,9 +3,9 @@ class Scheduler {
   constructor() {
     this.cronExcuter = cron;
   }
-  toCronExp() {
-    throw new Error("Method toCronExp() must be implemented");
-  }
+  // toCronExp() {
+  //   throw new Error("Method toCronExp() must be implemented");
+  // }
 
   task(callBackTask) {
     if (!callBackTask) {
