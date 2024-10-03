@@ -1,3 +1,5 @@
+const Scheduler = require("../Scheduler.js");
+
 class HourlyScheduler extends Scheduler {
   constructor(day) {
     super();
