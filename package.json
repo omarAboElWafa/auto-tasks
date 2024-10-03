@@ -1,0 +1,38 @@
+{
+  "name": "auto-tasks",
+  "version": "0.0.1",
+  "description": "A Node.js scheduling utility that simplifies task scheduling with human-readable syntax. Convert intuitive time formats into cron expressions and schedule tasks effortlessly using node-schedule",
+  "main": "./dist/index.js",
+  "module": "./dist/index.mjs",
+  "types": "./dist/index.d.ts",
+  "repository": {
+    "url": "https://github.com/omarAboElWafa/auto-tasks"
+  },
+  "directories": {
+    "test": "tests"
+  },
+  "scripts": {
+    "build": "rollup -c",
+    "test": "jest"
+  },
+  "keywords": [
+    "scheduling",
+    "cron",
+    "task",
+    "task-scheduler",
+    "cron-schedule",
+    "node-cron",
+    "node-schedule"
+  ],
+  "author": "omarAboElWafa",
+  "license": "MIT",
+  "devDependencies": {
+    "@rollup/plugin-commonjs": "^28.0.0",
+    "@rollup/plugin-json": "^6.1.0",
+    "@rollup/plugin-node-resolve": "^15.3.0",
+    "rollup": "^4.24.0"
+  },
+  "dependencies": {
+    "node-cron": "^3.0.3"
+  }
+}
