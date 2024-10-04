@@ -1,5 +1,5 @@
 const ScheduleFactory = require("./ScheduleFactory");
-const { validateTimeFormat } = require("./utils/validators");
+const { validateTimeFormat, validateWeekDays } = require("./utils/validators");
 
 class ScheduleBuilder {
   constructor() {
@@ -51,6 +51,10 @@ class ScheduleBuilder {
     }
     if (this.scheduleData.every !== "week") {
       throw new Error("Invalid time unit, every must be set to week");
+    }
+
+    if (!validateWeekDays(day)) {
+      throw new Error("Invalid day of week");
     }
     this.scheduleData.on = day;
     this._excutionChain.push("on");
