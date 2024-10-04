@@ -5,4 +5,26 @@ const validateTimeFormat = (time) => {
 
   return true;
 };
-module.exports = { validateTimeFormat };
+
+const validateWeekDays = (day) => {
+  if (
+    ![
+      "sunday",
+      "monday",
+      "tuesday",
+      "wednesday",
+      "thursday",
+      "friday",
+      "saturday",
+    ].includes(day?.toLowerCase())
+  ) {
+    return false;
+  }
+
+  return true;
+};
+
+module.exports = {
+  validateWeekDays,
+  validateTimeFormat,
+};
