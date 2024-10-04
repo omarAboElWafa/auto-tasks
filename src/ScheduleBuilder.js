@@ -5,9 +5,14 @@ class ScheduleBuilder {
   }
 
   every(timeUnit = "week") {
+    if (typeof timeUnit !== "string") {
+      throw new Error("Invalid time unit, every must be set to string.");
+    }
     const isValid = ["week", "day", "hour"].includes(timeUnit.toLowerCase());
     if (!isValid) {
-      throw new Error("Invalid time unit");
+      throw new Error(
+        "Invalid time unit, every must be set to 'week' or 'day' or 'hour'"
+      );
     }
     this.scheduleData.every = timeUnit.toLowerCase();
     return this;
