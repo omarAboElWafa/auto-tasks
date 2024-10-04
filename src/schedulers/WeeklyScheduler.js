@@ -6,15 +6,7 @@ class WeeklyScheduler extends Scheduler {
     if (!day || !time || !period) {
       throw new Error("Invalid schedule data");
     }
-    this.daysArr = [
-      "sunday",
-      "monday",
-      "tuesday",
-      "wednesday",
-      "thursday",
-      "friday",
-      "saturday",
-    ];
+
     this.day = day.toLowerCase(); // tuesday
     this.time = time; // 12:00
     this.period = period.toLowerCase(); // am/pm
