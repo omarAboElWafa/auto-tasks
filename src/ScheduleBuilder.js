@@ -5,6 +5,7 @@ const {
   validateTimePeriod,
 } = require("./utils/validators");
 const { mapNumberToTimeFormat } = require("./utils/converters");
+const { DEAFULTS, validTimeUnits } = require("./utils/defaults");
 
 class ScheduleBuilder {
   constructor() {
@@ -12,11 +13,11 @@ class ScheduleBuilder {
     this._excutionChain = [];
   }
 
-  every(timeUnit = "week") {
+  every(timeUnit = DEAFULTS.every) {
     if (typeof timeUnit !== "string") {
       throw new Error("Invalid time unit, every must be set to string.");
     }
-    const isValid = ["week", "day", "hour"].includes(timeUnit.toLowerCase());
+    const isValid = validTimeUnits.includes(timeUnit.toLowerCase());
     if (!isValid) {
       throw new Error(
         "Invalid time unit, every must be set to 'week' or 'day' or 'hour'"
@@ -24,6 +25,9 @@ class ScheduleBuilder {
     }
     this.scheduleData.every = timeUnit.toLowerCase();
     this._excutionChain.push("every");
+    this.scheduleData.on = DEAFULTS.on;
+    this.scheduleData.at = DEAFULTS.at;
+    this.scheduleData.period = DEAFULTS.period;
     return this;
   }
 
@@ -43,10 +47,10 @@ class ScheduleBuilder {
     return this;
   }
 
-  at(time = "00:00", period = "am") {
+  at(time = DEAFULTS.at, period = DEAFULTS.period) {
     try {
       if (!this._excutionChain.includes("every")) {
-        this.every();
+        this.every("day");
       }
       // valid only for every week || every day
       if (
