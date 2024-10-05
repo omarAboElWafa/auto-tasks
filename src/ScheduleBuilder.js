@@ -1,5 +1,10 @@
 const ScheduleFactory = require("./ScheduleFactory");
-const { validateTimeFormat, validateWeekDays } = require("./utils/validators");
+const {
+  validateTimeFormat,
+  validateWeekDays,
+  validateTimePeriod,
+} = require("./utils/validators");
+const { mapNumberToTimeFormat } = require("./utils/converters");
 
 class ScheduleBuilder {
   constructor() {
@@ -22,29 +27,6 @@ class ScheduleBuilder {
     return this;
   }
 
-  at(time = "00:00") {
-    if (!this._excutionChain.includes("every")) {
-      this.every();
-    }
-    // valid only for every week || every day
-    if (
-      this.scheduleData.every !== "week" &&
-      this.scheduleData.every !== "day"
-    ) {
-      throw new Error("Invalid time unit, every must be set to week or day");
-    }
-    if (typeof time === "number") {
-      time = time.toString();
-    }
-
-    if (!validateTimeFormat(time)) {
-      throw new Error("Invalid time format");
-    }
-    this.scheduleData.at = time;
-    this._excutionChain.push("at");
-    return this;
-  }
-
   on(day) {
     if (!this._excutionChain.includes("every")) {
       this.every();
@@ -61,25 +43,37 @@ class ScheduleBuilder {
     return this;
   }
 
-  period(period) {
-    if (!this._excutionChain.includes("at")) {
-      throw new Error(
-        "Invalid time format, 'at' must be set before calling 'period'"
-      );
-    }
-    if (
-      this.scheduleData.every !== "week" ||
-      this.scheduleData.every !== "day"
-    ) {
-      throw new Error("Invalid time unit, every must be set to week or day");
-    }
+  at(time = "00:00", period = "am") {
+    try {
+      if (!this._excutionChain.includes("every")) {
+        this.every();
+      }
+      // valid only for every week || every day
+      if (
+        this.scheduleData.every !== "week" &&
+        this.scheduleData.every !== "day"
+      ) {
+        throw new Error("Invalid time unit, every must be set to week or day");
+      }
+      // check if time is like "10" (can be converted to number)
+      if (typeof time === "string" && !isNaN(Number(time))) {
+        time = Number(time);
+      }
+      if (typeof time === "number") {
+        time = mapNumberToTimeFormat(time);
+      }
 
-    if (!["am", "pm"].includes(period.toLowerCase())) {
-      throw new Error("Invalid period");
+      if (!validateTimeFormat(time) || !validateTimePeriod(period)) {
+        throw new Error("Invalid time format or time period");
+      }
+      this.scheduleData.at = time;
+      this.scheduleData.period = period?.toLowerCase();
+      this._excutionChain.push("at");
+      return this;
+    } catch (error) {
+      console.log(error);
+      throw error;
     }
-    this.scheduleData.period = period.toLowerCase();
-    this._excutionChain.push("period");
-    return this;
   }
 
   build() {
