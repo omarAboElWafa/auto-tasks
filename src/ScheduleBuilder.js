@@ -3,7 +3,6 @@ const {
   validateTimeFormat,
   validateWeekDays,
   validateTimePeriod,
-  validateAtState,
 } = require("./utils/validators");
 const { mapNumberToTimeFormat } = require("./utils/converters");
 const { DEAFULTS, validTimeUnits } = require("./utils/defaults");
@@ -12,6 +11,7 @@ class ScheduleBuilder {
   constructor() {
     this.scheduleData = {};
     this._excutionChain = [];
+    this.scheduleData.callBackTask = null;
   }
 
   every(timeUnit = DEAFULTS.every) {
@@ -91,7 +91,11 @@ class ScheduleBuilder {
       throw error;
     }
   }
-  build() {
+  do(callBackTask) {
+    if (!callBackTask) {
+      throw new Error("callBackTask is required");
+    }
+    this.scheduleData.callBackTask = callBackTask;
     return ScheduleFactory.createSchedule(this.scheduleData);
   }
 }

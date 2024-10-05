@@ -12,6 +12,7 @@ class Scheduler {
       throw new Error("callBackTask is required");
     }
     this.callBackTask = callBackTask;
+    return this;
   }
 
   excute(cronExcuter = this.cronExcuter) {

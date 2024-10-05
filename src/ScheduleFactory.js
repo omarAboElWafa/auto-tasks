@@ -8,7 +8,7 @@ class ScheduleFactory {
   }
 
   static createSchedule(scheduleData) {
-    const { every, at, period, on } = scheduleData;
+    const { every, at, period, on, callBackTask } = scheduleData;
     let schedule;
     switch (every) {
       case "week":
@@ -25,8 +25,7 @@ class ScheduleFactory {
           "Invalid time unit, every must be set to week or day or hour"
         );
     }
-
-    return schedule;
+    return schedule.task(callBackTask).excute();
   }
 }
 
