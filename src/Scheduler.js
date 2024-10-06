@@ -16,6 +16,9 @@ class Scheduler {
   }
 
   excute(cronExcuter = this.cronExcuter) {
+    if (!this.callBackTask) {
+      throw new Error("task() method must be called before excute()");
+    }
     cronExcuter.schedule(this.toCronExp(), () => {
       this.callBackTask();
     });
