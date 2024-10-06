@@ -1,4 +1,4 @@
-const { DEAFULTS } = require("./defaults");
+const { DEAFULTS, weekDays } = require("./defaults");
 
 const validateTimeFormat = (time) => {
   if (!time.match(/^(0?[0-9]|1[0-2]):([0-5]\d)$/)) {
@@ -9,21 +9,11 @@ const validateTimeFormat = (time) => {
 };
 
 const validateWeekDays = (day) => {
-  if (
-    ![
-      "sunday",
-      "monday",
-      "tuesday",
-      "wednesday",
-      "thursday",
-      "friday",
-      "saturday",
-    ].includes(day?.toLowerCase())
-  ) {
+  if (!weekDays.includes(day?.toLowerCase())) {
     return false;
   }
 
-  return true;
+  return weekDays.indexOf(day.toLowerCase()) + 1;
 };
 
 const validateTimePeriod = (period) => {
