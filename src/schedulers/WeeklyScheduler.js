@@ -1,5 +1,9 @@
 const Scheduler = require("../Scheduler.js");
-const { validateTimeFormat } = require("../utils/validators.js");
+const {
+  validateTimeFormat,
+  validateWeekDays,
+  validateTimePeriod,
+} = require("../utils/validators.js");
 class WeeklyScheduler extends Scheduler {
   constructor(day, time, period) {
     super();
@@ -16,6 +20,9 @@ class WeeklyScheduler extends Scheduler {
     if (validateTimeFormat(this.time) === false) {
       throw new Error("Invalid time format");
     }
+    if (validateTimePeriod(this.period) === false) {
+      throw new Error("Invalid schedule data");
+    }
     if (this.time) {
       let [hour, minute] = this.time.split(":").map(Number);
       if (this.period === "am" && hour === 12) {
@@ -24,11 +31,17 @@ class WeeklyScheduler extends Scheduler {
       if (this.period === "pm" && hour !== 12) {
         hour += 12;
       }
-    }
+      const weekDayPlace = validateWeekDays(this.day);
+      if (!weekDayPlace) {
+        throw new Error("Invalid day of week");
+      }
 
-    return `${minute ? `${minute} ` : ""} ${
-      hour ? `${hour} ` : ""
-    } * * ${this.daysArr.indexOf(this.day)}`;
+      return `${minute ? `${minute}` : 0} ${hour ? `${hour}` : 0} * * ${
+        weekDayPlace - 1
+      }`;
+    } else {
+      throw new Error("Invalid time format");
+    }
   }
 }
 
