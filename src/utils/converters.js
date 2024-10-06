@@ -1,4 +1,7 @@
 const mapNumberToTimeFormat = (numericTime) => {
+  if (typeof numericTime === "string") {
+    throw new Error("Invalid time format");
+  }
   if (numericTime >= 0 && numericTime <= 12) {
     numericTime = numericTime.toString();
     if (numericTime.length === 1) {
