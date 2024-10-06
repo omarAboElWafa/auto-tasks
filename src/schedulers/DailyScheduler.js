@@ -1,25 +1,20 @@
 const Scheduler = require("../Scheduler.js");
-const { validateTimeFormat } = require("../utils/validators.js");
+const {
+  validateTimeFormat,
+  validateTimePeriod,
+} = require("../utils/validators.js");
 
 class DailyScheduler extends Scheduler {
-  constructor(day, time, period) {
+  constructor(time, period) {
     super();
-    this.daysArr = [
-      "sunday",
-      "monday",
-      "tuesday",
-      "wednesday",
-      "thursday",
-      "friday",
-      "saturday",
-    ];
-
-    this.day = day.toLowerCase(); // tuesday
+    if (!time) {
+      throw new Error("Invalid schedule data");
+    }
     this.time = time; // 12:00
-    this.period = period.toLowerCase(); // am/pm
+    this.period = period?.toLowerCase() ?? "am"; // am or pm
   }
   toCronExp() {
-    if (!validateTimeFormat(this.time)) {
+    if (!validateTimeFormat(this.time) || !validateTimePeriod(this.period)) {
       throw new Error("Invalid time format");
     }
     if (this.time) {
@@ -30,8 +25,8 @@ class DailyScheduler extends Scheduler {
       if (this.period === "pm" && hour !== 12) {
         hour += 12;
       }
-      const timeExpression = `${minute ? `${minute} ` : ""}${
-        hour ? `${hour} ` : ""
+      const timeExpression = `${minute ? `${minute} ` : "0 "}${
+        hour ? `${hour}` : ""
       }`;
 
       return `${timeExpression} * * *`;
