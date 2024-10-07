@@ -1,12 +1,13 @@
 import resolve from "@rollup/plugin-node-resolve";
 import commonjs from "@rollup/plugin-commonjs";
 import json from "@rollup/plugin-json";
+import terser from "@rollup/plugin-terser";
 
 export default {
-  input: "src/index.js", // Adjust the input file as needed
+  input: "src/index.js",
   output: {
     file: "dist/bundle.js",
-    format: "cjs", // CommonJS format
+    format: "cjs",
   },
-  plugins: [resolve(), commonjs(), json()],
+  plugins: [resolve(), commonjs(), json(), terser()],
 };
