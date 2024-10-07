@@ -5,24 +5,64 @@ A Node.js scheduling utility that simplifies task scheduling with human-readable
 ## Installation
 
 ```bash
-npm install auto-tasks
+npm install auto-tasker
 ```
 
 ## Usage
 
+### Example-1:
+
 ```javascript
-const { ScheduleBuilder } = require("auto-tasks");
+const { ScheduleBuilder } = require("auto-tasker");
 const callBackTask = () => {
   console.log("hello world");
 };
 const schedule = new ScheduleBuilder();
 const scheduleCron = schedule
-  .every("monday")
-  .at("10:00")
+  .every("week")
   .on("monday")
-  .period("am")
-  .build()
-  .toCronExp()
-  .task(callBackTask)
-  .excute();
+  .at("05:30", "pm")
+  .do(callBackTask);
 ```
+
+### Example-2:
+
+```javascript
+const { ScheduleBuilder } = require("auto-tasker");
+const callBackTask = () => {
+  console.log("hello world");
+};
+const schedule = new ScheduleBuilder();
+const scheduleCron = schedule.every("day").at("10:00", "am").do(callBackTask);
+```
+
+### Example-3:
+
+```javascript
+const { ScheduleBuilder } = require("auto-tasker");
+const callBackTask = () => {
+  console.log("hello world");
+};
+const schedule = new ScheduleBuilder();
+const scheduleCron = schedule.every("hour").on("monday").do(callBackTask);
+```
+
+### Example-4:
+
+```javascript
+const { ScheduleBuilder } = require("auto-tasker");
+const callBackTask = () => {
+  console.log("hello world");
+};
+
+const schedule = new ScheduleBuilder();
+const scheduleCron = schedule.on("tuesday").at("10:00", "am").do(callBackTask);
+```
+
+## License
+
+MIT
+
+## Contributing
+
+Please follow the [contributing guidelines](https://github.com/omarAboElWafa/auto-tasks/blob/master/CONTRIBUTING.md).
