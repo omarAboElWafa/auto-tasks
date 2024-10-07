@@ -1,6 +1,6 @@
 {
   "name": "auto-tasker",
-  "version": "0.0.1",
+  "version": "0.0.2",
   "description": "A Node.js scheduling utility that simplifies task scheduling with human-readable syntax. Convert intuitive time formats into cron expressions and schedule tasks effortlessly using node-schedule",
   "main": "./dist/index.js",
   "module": "./dist/index.mjs",
