@@ -15,7 +15,7 @@ class ScheduleFactory {
         schedule = new WeeklyScheduler(on, at, period);
         break;
       case "day":
-        schedule = new DailyScheduler(on, at, period);
+        schedule = new DailyScheduler(at, period);
         break;
       case "hour":
         schedule = new HourlyScheduler(on);
