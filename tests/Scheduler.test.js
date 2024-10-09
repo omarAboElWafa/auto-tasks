@@ -17,8 +17,10 @@ describe("Scheduler", () => {
       expect(scheduler.callBackTask).toBe(dummyCallBackTask);
     });
 
-    it("should throw an error if no callBackTask is provided", () => {
-      expect(() => scheduler.task()).toThrow("callBackTask is required");
+    it("should log an error if callBackTask is not set", () => {
+      console.error = jest.fn();
+      scheduler.task();
+      expect(console.error).toHaveBeenCalledWith("callBackTask is required");
     });
   });
 
