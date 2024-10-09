@@ -16,12 +16,19 @@ class Scheduler {
   }
 
   excute(cronExcuter = this.cronExcuter) {
-    if (!this.callBackTask) {
-      throw new Error("task() method must be called before excute()");
+    try {
+      if (!this.callBackTask) {
+        throw new Error("task() method must be called before excute()");
+      }
+      cronExcuter.schedule(this.toCronExp(), () => {
+        this.callBackTask();
+        console.log(
+          `Cron job created successfully. Cron expression: ${this.toCronExp()}`
+        );
+      });
+    } catch (error) {
+      console.error(error.message);
     }
-    cronExcuter.schedule(this.toCronExp(), () => {
-      this.callBackTask();
-    });
   }
 }
 

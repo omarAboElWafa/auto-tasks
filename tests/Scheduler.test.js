@@ -23,8 +23,10 @@ describe("Scheduler", () => {
   });
 
   describe("excute", () => {
-    it("should throw an error if task() method is not called before excute()", () => {
-      expect(() => scheduler.excute()).toThrow(
+    it("should log an error if task() method is not called before excute()", () => {
+      console.error = jest.fn();
+      scheduler.excute();
+      expect(console.error).toHaveBeenCalledWith(
         "task() method must be called before excute()"
       );
     });
