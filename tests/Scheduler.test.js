@@ -17,14 +17,18 @@ describe("Scheduler", () => {
       expect(scheduler.callBackTask).toBe(dummyCallBackTask);
     });
 
-    it("should throw an error if no callBackTask is provided", () => {
-      expect(() => scheduler.task()).toThrow("callBackTask is required");
+    it("should log an error if callBackTask is not set", () => {
+      console.error = jest.fn();
+      scheduler.task();
+      expect(console.error).toHaveBeenCalledWith("callBackTask is required");
     });
   });
 
   describe("excute", () => {
-    it("should throw an error if task() method is not called before excute()", () => {
-      expect(() => scheduler.excute()).toThrow(
+    it("should log an error if task() method is not called before excute()", () => {
+      console.error = jest.fn();
+      scheduler.excute();
+      expect(console.error).toHaveBeenCalledWith(
         "task() method must be called before excute()"
       );
     });
