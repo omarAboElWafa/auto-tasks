@@ -1,10 +1,9 @@
 {
   "name": "auto-tasker",
-  "version": "0.0.2",
+  "version": "0.0.4",
   "description": "A Node.js scheduling utility that simplifies task scheduling with human-readable syntax. Convert intuitive time formats into cron expressions and schedule tasks effortlessly using node-schedule",
   "main": "./dist/index.js",
   "module": "./dist/index.mjs",
-  "types": "./dist/index.d.ts",
   "repository": {
     "url": "https://github.com/omarAboElWafa/auto-tasks"
   },
@@ -40,5 +39,10 @@
   },
   "dependencies": {
     "node-cron": "^3.0.3"
-  }
+  },
+  "files": [
+    "dist",
+    "README.md",
+    "LICENSE"
+  ]
 }
