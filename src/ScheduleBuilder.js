@@ -6,6 +6,7 @@ const {
 } = require("./utils/validators");
 const { mapNumberToTimeFormat } = require("./utils/converters");
 const { DEAFULTS, validTimeUnits } = require("./utils/defaults");
+const { handleError } = require("./utils/helpers");
 
 class ScheduleBuilder {
   constructor() {
@@ -87,8 +88,7 @@ class ScheduleBuilder {
       this._excutionChain.push("at");
       return this;
     } catch (error) {
-      console.log(error);
-      throw error;
+      throw handleError(error, error.message);
     }
   }
   do(callBackTask) {

@@ -1,4 +1,5 @@
 const cron = require("node-cron");
+const { handleError } = require("./utils/helpers");
 class Scheduler {
   constructor() {
     this.cronExcuter = cron;
@@ -15,7 +16,7 @@ class Scheduler {
       this.callBackTask = callBackTask;
       return this;
     } catch (error) {
-      console.error(error.message);
+      throw handleError(error, "callBackTask is required");
     }
   }
 
@@ -31,7 +32,7 @@ class Scheduler {
         );
       });
     } catch (error) {
-      console.error(error.message);
+      throw handleError(error, error.message);
     }
   }
 }
