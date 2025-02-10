@@ -1,5 +1,6 @@
 const Scheduler = require("../src/Scheduler");
 const cron = require("node-cron");
+const { handleError } = require("../src/utils/helpers");
 
 jest.mock("node-cron");
 
@@ -18,17 +19,13 @@ describe("Scheduler", () => {
     });
 
     it("should log an error if callBackTask is not set", () => {
-      console.error = jest.fn();
-      scheduler.task();
-      expect(console.error).toHaveBeenCalledWith("callBackTask is required");
+      expect(() => scheduler.task()).toThrowError("callBackTask is required");
     });
   });
 
   describe("excute", () => {
     it("should log an error if task() method is not called before excute()", () => {
-      console.error = jest.fn();
-      scheduler.excute();
-      expect(console.error).toHaveBeenCalledWith(
+      expect(() => scheduler.excute()).toThrowError(
         "task() method must be called before excute()"
       );
     });
