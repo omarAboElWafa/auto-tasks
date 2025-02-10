@@ -68,3 +68,88 @@ describe("Integration Test", () => {
     }).toThrow("Invalid time format");
   });
 });
+
+describe("ScheduleBuilder Integration Tests", () => {
+  // Clear mocks before each test so tests don't interfere.
+  beforeEach(() => {
+    jest.clearAllMocks();
+  });
+
+  test("Example 1: every week on monday at 05:30 pm", () => {
+    const callBackTask = jest.fn();
+    new ScheduleBuilder()
+      .every("week")
+      .on("monday")
+      .at("05:30", "pm")
+      .do(callBackTask);
+
+    // Expected cron expression: "30 17 * * 1"
+    const expectedCronExpression = "30 17 * * 1";
+
+    // Verify that node-cron.schedule was called correctly.
+    expect(cron.schedule).toHaveBeenCalledTimes(1);
+    expect(cron.schedule).toHaveBeenCalledWith(
+      expectedCronExpression,
+      expect.any(Function)
+    );
+
+    // Manually invoke the scheduled callback.
+    const scheduledFunction = cron.schedule.mock.calls[0][1];
+    scheduledFunction();
+    expect(callBackTask).toHaveBeenCalled();
+  });
+
+  test("Example 2: every day at 10:00 am", () => {
+    const callBackTask = jest.fn();
+    new ScheduleBuilder().every("day").at("10:00", "am").do(callBackTask);
+
+    // Expected cron expression: "0 10 * * *"
+    const expectedCronExpression = "0 10 * * *";
+
+    expect(cron.schedule).toHaveBeenCalledTimes(1);
+    expect(cron.schedule).toHaveBeenCalledWith(
+      expectedCronExpression,
+      expect.any(Function)
+    );
+
+    const scheduledFunction = cron.schedule.mock.calls[0][1];
+    scheduledFunction();
+    expect(callBackTask).toHaveBeenCalled();
+  });
+
+  test("Example 3: every hour on monday", () => {
+    const callBackTask = jest.fn();
+    new ScheduleBuilder().on("monday").every("hour").do(callBackTask);
+
+    // Expected cron expression: "0 * * * 1"
+    const expectedCronExpression = "0 * * * 1";
+
+    expect(cron.schedule).toHaveBeenCalledTimes(1);
+    expect(cron.schedule).toHaveBeenCalledWith(
+      expectedCronExpression,
+      expect.any(Function)
+    );
+
+    const scheduledFunction = cron.schedule.mock.calls[0][1];
+    scheduledFunction();
+    expect(callBackTask).toHaveBeenCalled();
+  });
+
+  test("Example 4: on tuesday at 10:00 am", () => {
+    const callBackTask = jest.fn();
+    new ScheduleBuilder().on("tuesday").at("10:00", "am").do(callBackTask);
+
+    // Expected cron expression: "0 10 * * 2"
+    const expectedCronExpression = "0 10 * * 2";
+
+    expect(cron.schedule).toHaveBeenCalledTimes(1);
+    expect(cron.schedule).toHaveBeenCalledWith(
+      expectedCronExpression,
+      expect.any(Function)
+    );
+
+    const scheduledFunction = cron.schedule.mock.calls[0][1];
+    scheduledFunction();
+    expect(callBackTask).toHaveBeenCalled();
+  });
+});
